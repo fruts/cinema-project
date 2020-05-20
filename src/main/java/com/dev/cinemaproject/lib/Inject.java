@@ -1,8 +1,8 @@
-package mate.academy.cinemaproject.lib;
+package com.dev.cinemaproject.lib;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Dao {
+public @interface Inject {
 }

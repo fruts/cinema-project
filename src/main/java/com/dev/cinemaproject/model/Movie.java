@@ -17,20 +17,6 @@ public class Movie {
     private String description;
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Movie)) {
-            return false;
-        }
-        Movie movie = (Movie) o;
-        return Objects.equals(id, movie.id)
-                && Objects.equals(title, movie.title)
-                && Objects.equals(description, movie.description);
-    }
-
-    @Override
     public int hashCode() {
         return Objects.hash(id, title, description);
     }
@@ -57,6 +43,20 @@ public class Movie {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Movie)) {
+            return false;
+        }
+        Movie movie = (Movie) o;
+        return Objects.equals(id, movie.id)
+                && Objects.equals(title, movie.title)
+                && Objects.equals(description, movie.description);
     }
 
     @Override

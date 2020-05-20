@@ -23,11 +23,14 @@ public class MovieDaoImpl implements MovieDao {
             Long itemId = (Long) session.save(movie);
             transaction.commit();
             movie.setId(itemId);
+            LOGGER.info("movie: " + movie.getTitle() + " was added to DB");
             return movie;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
+            LOGGER.error("UNABLE TO ADD MOVIE: " + movie.getTitle()
+                    + " with id: " + movie.getId());
             throw new RuntimeException("Can't insert Movie entity", e);
         }
     }
@@ -38,8 +41,10 @@ public class MovieDaoImpl implements MovieDao {
             CriteriaQuery<Movie> criteriaQuery = session.getCriteriaBuilder()
                     .createQuery(Movie.class);
             criteriaQuery.from(Movie.class);
+            LOGGER.info("METHOD GETALL() WORKED SUCCESSFULLY");
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
+            LOGGER.error("UNABLE TO GET ALL MOVIES");
             throw new DataProcessingException("Unable to get all movies", e);
         }
     }

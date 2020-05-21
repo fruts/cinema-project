@@ -7,16 +7,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-@Entity(name = "moviesession")
+@Entity
+@Table(name = "moviesession")
 public class MovieSession {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     private Movie movie;
-    @OneToMany
+    @ManyToOne
     private CinemaHall cinemaHall;
     private LocalDateTime showTime;
 

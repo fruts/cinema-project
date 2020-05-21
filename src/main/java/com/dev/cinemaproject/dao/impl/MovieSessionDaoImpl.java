@@ -2,15 +2,17 @@ package com.dev.cinemaproject.dao.impl;
 
 import com.dev.cinemaproject.dao.MovieSessionDao;
 import com.dev.cinemaproject.exception.DataProcessingException;
+import com.dev.cinemaproject.lib.Dao;
 import com.dev.cinemaproject.model.MovieSession;
 import com.dev.cinemaproject.util.HibernateUtil;
+import java.time.LocalDate;
+import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import java.time.LocalDate;
-import java.util.List;
 
+@Dao
 public class MovieSessionDaoImpl implements MovieSessionDao {
     private static final Logger LOGGER = Logger.getLogger(MovieSessionDaoImpl.class);
 
@@ -43,7 +45,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query query = session
-                    .createQuery("FROM moviesession WHERE showTime > :date");
+                    .createQuery("FROM MovieSession WHERE showTime > :date");
             query.setParameter("date",date.atStartOfDay());
             return query.list();
         } catch (Exception e) {

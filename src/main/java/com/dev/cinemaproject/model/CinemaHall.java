@@ -8,12 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "movie")
-public class Movie {
+@Table(name = "cinema_hall")
+public class CinemaHall {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
+    private Integer capacity;
     private String description;
 
     public Long getId() {
@@ -24,12 +24,12 @@ public class Movie {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public Integer getCapacity() {
+        return capacity;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
     }
 
     public String getDescription() {
@@ -41,29 +41,29 @@ public class Movie {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Movie)) {
-            return false;
-        }
-        Movie movie = (Movie) o;
-        return Objects.equals(id, movie.id)
-                && Objects.equals(title, movie.title)
-                && Objects.equals(description, movie.description);
-    }
-
-    @Override
     public String toString() {
-        return "Movie{"
+        return "CinemaHall{"
                 + "id=" + id
-                + ", title='" + title + '\''
+                + ", capacity=" + capacity
                 + ", description='" + description + '\'' + '}';
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof CinemaHall)) {
+            return false;
+        }
+        CinemaHall that = (CinemaHall) o;
+        return Objects.equals(id, that.id)
+                && Objects.equals(capacity, that.capacity)
+                && Objects.equals(description, that.description);
+    }
+
+    @Override
     public int hashCode() {
-        return Objects.hash(id, title, description);
+        return Objects.hash(id, capacity, description);
     }
 }

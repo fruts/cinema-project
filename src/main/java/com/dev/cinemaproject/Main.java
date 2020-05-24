@@ -4,9 +4,11 @@ import com.dev.cinemaproject.lib.Injector;
 import com.dev.cinemaproject.model.CinemaHall;
 import com.dev.cinemaproject.model.Movie;
 import com.dev.cinemaproject.model.MovieSession;
+import com.dev.cinemaproject.model.User;
 import com.dev.cinemaproject.service.CinemaHallService;
 import com.dev.cinemaproject.service.MovieService;
 import com.dev.cinemaproject.service.MovieSessionService;
+import com.dev.cinemaproject.service.UserService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -19,6 +21,8 @@ public class Main {
             = (MovieSessionService) INJECTOR.getInstance(MovieSessionService.class);
     private static CinemaHallService cinemaHallService
             = (CinemaHallService) INJECTOR.getInstance(CinemaHallService.class);
+    private static UserService userService
+            = (UserService) INJECTOR.getInstance(UserService.class);
 
     public static void main(String[] args) {
         movieService.getAll().forEach(System.out::println);
@@ -46,5 +50,12 @@ public class Main {
         movieSessionService.add(firstSession);
         movieSessionService.findAvailableSessions(movie.getId(), today)
                 .forEach(System.out::println);
+
+        User alex = new User();
+        alex.setName("Sanya");
+        alex.setEmail("sanya@gmail.com");
+        alex.setPassword("123");
+        userService.add(alex);
+        System.out.println(userService.findByEmail("sanya@gmail.com"));
     }
 }

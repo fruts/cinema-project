@@ -14,5 +14,6 @@
         <mapping class="com.dev.cinemaproject.model.Movie" />
         <mapping class="com.dev.cinemaproject.model.CinemaHall" />
         <mapping class="com.dev.cinemaproject.model.MovieSession" />
+        <mapping class="com.dev.cinemaproject.model.User" />
     </session-factory>
 </hibernate-configuration>

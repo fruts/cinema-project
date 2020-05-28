@@ -11,6 +11,7 @@ import com.dev.cinemaproject.security.AuthenticationService;
 import com.dev.cinemaproject.service.CinemaHallService;
 import com.dev.cinemaproject.service.MovieService;
 import com.dev.cinemaproject.service.MovieSessionService;
+import com.dev.cinemaproject.service.OrderService;
 import com.dev.cinemaproject.service.ShoppingCartService;
 import com.dev.cinemaproject.service.UserService;
 import java.time.LocalDate;
@@ -33,6 +34,8 @@ public class Main {
             = (AuthenticationService) INJECTOR.getInstance(AuthenticationService.class);
     private static ShoppingCartService cartService
             = (ShoppingCartService) INJECTOR.getInstance(ShoppingCartService.class);
+    private static OrderService orderService
+            = (OrderService) INJECTOR.getInstance(OrderService.class);
 
     public static void main(String[] args) {
         movieService.getAll().forEach(System.out::println);
@@ -76,5 +79,7 @@ public class Main {
         ShoppingCart cart2 = cartService.getByUser(user);
         System.out.println("SECOND");
         System.out.println(cart2.toString());
+        orderService.completeOrder(cart.getTickets(), user);
+        orderService.getOrderHistory(user).forEach(System.out::println);
     }
 }

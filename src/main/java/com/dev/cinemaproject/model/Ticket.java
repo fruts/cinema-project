@@ -1,6 +1,5 @@
 package com.dev.cinemaproject.model;
 
-import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,14 +10,22 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "moviesession")
-public class MovieSession {
+@Table(name = "ticket")
+public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    private Movie movie;
+    private MovieSession movieSession;
     @ManyToOne
-    private CinemaHall cinemaHall;
-    private LocalDateTime showTime;
+    private User user;
+
+    public Ticket() {
+
+    }
+
+    public Ticket(MovieSession movieSession, User user) {
+        this.movieSession = movieSession;
+        this.user = user;
+    }
 }

@@ -5,7 +5,11 @@ import com.dev.cinemaproject.exception.DataProcessingException;
 import com.dev.cinemaproject.lib.Dao;
 import com.dev.cinemaproject.model.User;
 import com.dev.cinemaproject.util.HibernateUtil;
-import javax.persistence.Query;
+import java.util.Optional;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -38,13 +42,19 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User findByEmail(String email) {
+    public Optional<User> findByEmail(String email) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query query = session.createQuery("FROM User WHERE email =:email");
-            query.setParameter("email", email);
-            return (User) query.getSingleResult();
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<User> criteriaQuery = criteriaBuilder
+                    .createQuery(User.class);
+            Root<User> root = criteriaQuery.from(User.class);
+            Predicate predicateEmail = criteriaBuilder.equal(root.get("email"), email);
+            criteriaQuery.where(predicateEmail);
+            User user = session.createQuery(criteriaQuery).uniqueResult();
+            return Optional.ofNullable(user);
         } catch (Exception e) {
-            throw new DataProcessingException("Unable to find user with this EMAIL", e);
+            throw new DataProcessingException("Can't find user with email "
+                    + email, e);
         }
     }
 }

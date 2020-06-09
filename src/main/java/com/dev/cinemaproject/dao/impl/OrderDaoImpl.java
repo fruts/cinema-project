@@ -2,26 +2,33 @@ package com.dev.cinemaproject.dao.impl;
 
 import com.dev.cinemaproject.dao.OrderDao;
 import com.dev.cinemaproject.exception.DataProcessingException;
-import com.dev.cinemaproject.lib.Dao;
 import com.dev.cinemaproject.model.Order;
 import com.dev.cinemaproject.model.User;
-import com.dev.cinemaproject.util.HibernateUtil;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-@Dao
+@Repository
 public class OrderDaoImpl implements OrderDao {
     private static final Logger LOGGER = Logger.getLogger(OrderDaoImpl.class);
+    private final SessionFactory sessionFactory;
+
+    @Autowired
+    public OrderDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public Order add(Order order) {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.save(order);
             transaction.commit();
@@ -41,7 +48,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public List<Order> getOrderHistory(User user) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             Query<Order> query = session
                     .createQuery("select distinct o from Order o "
                             + "left join fetch o.tickets Ticket "

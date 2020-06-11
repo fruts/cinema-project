@@ -2,6 +2,7 @@ package com.dev.cinemaproject.dao.impl;
 
 import com.dev.cinemaproject.dao.UserDao;
 import com.dev.cinemaproject.exception.DataProcessingException;
+import com.dev.cinemaproject.model.MovieSession;
 import com.dev.cinemaproject.model.User;
 import java.util.Optional;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -62,6 +63,15 @@ public class UserDaoImpl implements UserDao {
         } catch (Exception e) {
             throw new DataProcessingException("Can't find user with email "
                     + email, e);
+        }
+    }
+
+    @Override
+    public User findById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(User.class, id);
+        } catch (Exception e) {
+            throw new DataProcessingException("Unable to find user with this id", e);
         }
     }
 }

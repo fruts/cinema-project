@@ -24,7 +24,8 @@ public class MovieSessionController {
     private final MovieSessionMapper movieSessionMapper;
 
     @Autowired
-    public MovieSessionController(MovieSessionService movieSessionService, MovieSessionMapper movieSessionMapperMapper) {
+    public MovieSessionController(MovieSessionService movieSessionService,
+                                  MovieSessionMapper movieSessionMapperMapper) {
         this.movieSessionService = movieSessionService;
         this.movieSessionMapper = movieSessionMapperMapper;
     }
@@ -37,7 +38,9 @@ public class MovieSessionController {
     @GetMapping("/available")
     public List<MovieSessionResponseDto> getAvailableSessions(@RequestParam Long movieId,
                                                               @RequestParam
-                                                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+                                                              @DateTimeFormat(iso
+                                                                      = DateTimeFormat.ISO.DATE)
+                                                                      LocalDate date) {
         List<MovieSession> sessions = movieSessionService.findAvailableSessions(movieId, date);
         return sessions.stream()
                 .map(movieSessionMapper::convertToResponseDto)

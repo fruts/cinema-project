@@ -37,7 +37,10 @@ public class MovieSessionMapper {
         movieSessionResponseDto.setMovieSessionId(movieSession.getId());
         movieSessionResponseDto.setMovieId(movieSession.getMovie().getId());
         movieSessionResponseDto.setMovieTitle(movieSession.getMovie().getTitle());
-        movieSessionResponseDto.setCinemaHallDescription(movieSession.getCinemaHall().getDescription());
+        movieSessionResponseDto
+                .setCinemaHallDescription(movieSession
+                .getCinemaHall()
+                .getDescription());
         movieSessionResponseDto.setShowTime(movieSession.getShowTime().toString());
         return movieSessionResponseDto;
     }

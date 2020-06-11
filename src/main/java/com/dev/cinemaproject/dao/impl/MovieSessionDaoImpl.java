@@ -3,7 +3,6 @@ package com.dev.cinemaproject.dao.impl;
 import com.dev.cinemaproject.dao.MovieSessionDao;
 import com.dev.cinemaproject.exception.DataProcessingException;
 import com.dev.cinemaproject.model.MovieSession;
-import com.dev.cinemaproject.model.User;
 import java.time.LocalDate;
 import java.util.List;
 import org.apache.log4j.Logger;

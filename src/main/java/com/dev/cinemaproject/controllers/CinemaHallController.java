@@ -21,7 +21,8 @@ public class CinemaHallController {
     private final CinemaHallMapper cinemaHallMapper;
 
     @Autowired
-    public CinemaHallController(CinemaHallService cinemaHallService, CinemaHallMapper cinemaHallMapper) {
+    public CinemaHallController(CinemaHallService cinemaHallService,
+                                CinemaHallMapper cinemaHallMapper) {
         this.cinemaHallService = cinemaHallService;
         this.cinemaHallMapper = cinemaHallMapper;
     }

@@ -1,6 +1,5 @@
 package com.dev.cinemaproject.model.dto;
 
-import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
 

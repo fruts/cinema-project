@@ -1,9 +1,9 @@
 package com.dev.cinemaproject.dao.impl;
 
-import com.dev.cinemaproject.dao.MovieSessionDao;
+import com.dev.cinemaproject.dao.OrderDao;
 import com.dev.cinemaproject.exception.DataProcessingException;
-import com.dev.cinemaproject.model.MovieSession;
-import java.time.LocalDate;
+import com.dev.cinemaproject.model.Order;
+import com.dev.cinemaproject.model.User;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -14,33 +14,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class MovieSessionDaoImpl implements MovieSessionDao {
-    private static final Logger LOGGER = Logger.getLogger(MovieSessionDaoImpl.class);
+public class OrderDaoImpl implements OrderDao {
+    private static final Logger LOGGER = Logger.getLogger(OrderDaoImpl.class);
     private final SessionFactory sessionFactory;
 
     @Autowired
-    public MovieSessionDaoImpl(SessionFactory sessionFactory) {
+    public OrderDaoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
     @Override
-    public MovieSession add(MovieSession movieSession) {
+    public Order add(Order order) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            session.save(movieSession);
+            session.save(order);
             transaction.commit();
-            LOGGER.info("Moviesession: " + movieSession
-                    + "was added successfully");
-            return movieSession;
+            LOGGER.info(order + " was added to DB");
+            return order;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("UNABLE TO ADD MOVIESESSION: "
-                    + movieSession, e);
+            throw new DataProcessingException("Unable to add order", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -49,14 +47,17 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     }
 
     @Override
-    public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
+    public List<Order> getOrderHistory(User user) {
         try (Session session = sessionFactory.openSession()) {
-            Query query = session
-                    .createQuery("FROM MovieSession WHERE showTime > :date");
-            query.setParameter("date",date.atStartOfDay());
+            Query<Order> query = session
+                    .createQuery("select distinct o from Order o "
+                            + "left join fetch o.tickets Ticket "
+                            + "where o.user =: user", Order.class);
+            query.setParameter("user", user);
             return query.list();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't retrieve available sessions", e);
+            throw new DataProcessingException("Can't find orders of user with id "
+                    + user.getId(), e);
         }
     }
 }

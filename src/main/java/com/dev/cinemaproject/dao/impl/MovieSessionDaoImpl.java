@@ -59,4 +59,13 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             throw new DataProcessingException("Can't retrieve available sessions", e);
         }
     }
+
+    @Override
+    public MovieSession findById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(MovieSession.class, id);
+        } catch (Exception e) {
+            throw new DataProcessingException("Unable to find movie session with this id", e);
+        }
+    }
 }

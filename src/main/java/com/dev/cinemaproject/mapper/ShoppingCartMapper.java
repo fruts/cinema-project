@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 public class ShoppingCartMapper {
     private final TicketMapper ticketMapper;
 
-    public ShoppingCartMapper(TicketMapper titcketMapper) {
-        this.ticketMapper = titcketMapper;
+    public ShoppingCartMapper(TicketMapper ticketMapper) {
+        this.ticketMapper = ticketMapper;
     }
 
     public ShoppingCartResponseDto convertToResponseDto(ShoppingCart shoppingCart) {

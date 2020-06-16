@@ -11,7 +11,6 @@ import lombok.Setter;
 @Setter
 @PasswordMatch
 public class UserRequestDto {
-    @NotNull(message = "Email must be not null")
     @EmailConstraint
     private String email;
     @NotNull(message = "Password must be not null")

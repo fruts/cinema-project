@@ -8,8 +8,7 @@ public class PasswordMatchValidator implements ConstraintValidator<PasswordMatch
     @Override
     public boolean isValid(UserRequestDto userRequestDto,
                            ConstraintValidatorContext constraintValidatorContext) {
-        String password = userRequestDto.getPassword();
-        String repeatPassword = userRequestDto.getRepeatPassword();
-        return password != null && password.equals(repeatPassword);
+        return userRequestDto.getPassword() != null
+                && userRequestDto.getPassword().equals(userRequestDto.getRepeatPassword());
     }
 }

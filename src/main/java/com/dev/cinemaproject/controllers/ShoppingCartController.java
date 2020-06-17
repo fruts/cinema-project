@@ -35,7 +35,7 @@ public class ShoppingCartController {
 
     @GetMapping("/by-user")
     public ShoppingCartResponseDto getCartByUser(Authentication authentication) {
-        User user = userService.findByEmail(authentication.getName()).get();
+        User user = userService.findByEmail(authentication.getName());
         ShoppingCart shoppingCart = shoppingCartService.getByUser(user);
         return cartMapper.convertToResponseDto(shoppingCart);
     }
@@ -43,7 +43,7 @@ public class ShoppingCartController {
     @PostMapping
     public void add(@RequestParam Long movieSessionId,
                     Authentication authentication) {
-        User user = userService.findByEmail(authentication.getName()).get();
+        User user = userService.findByEmail(authentication.getName());
         MovieSession movieSession = movieSessionService.findById(movieSessionId);
         shoppingCartService.addSession(movieSession, user);
     }

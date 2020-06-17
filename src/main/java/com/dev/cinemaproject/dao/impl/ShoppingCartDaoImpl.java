@@ -4,6 +4,7 @@ import com.dev.cinemaproject.dao.ShoppingCartDao;
 import com.dev.cinemaproject.exception.DataProcessingException;
 import com.dev.cinemaproject.model.ShoppingCart;
 import com.dev.cinemaproject.model.User;
+import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -42,6 +43,26 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
             if (session != null) {
                 session.close();
             }
+        }
+    }
+
+    @Override
+    public List<ShoppingCart> getAll() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<ShoppingCart> carts =
+                    session.createQuery("FROM ShoppingCart ", ShoppingCart.class);
+            return carts.getResultList();
+        } catch (Exception e) {
+            throw new DataProcessingException("Unable to get all shopping carts", e);
+        }
+    }
+
+    @Override
+    public ShoppingCart getById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(ShoppingCart.class, id);
+        } catch (Exception e) {
+            throw new DataProcessingException("Unable to get shopping cart with this ID: " + id, e);
         }
     }
 

@@ -47,6 +47,26 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
+    public List<Order> getAll() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Order> orders =
+                    session.createQuery("FROM Order ", Order.class);
+            return orders.getResultList();
+        } catch (Exception e) {
+            throw new DataProcessingException("Unable to get all orders", e);
+        }
+    }
+
+    @Override
+    public Order getById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(Order.class, id);
+        } catch (Exception e) {
+            throw new DataProcessingException("Unable to get order with this ID: " + id, e);
+        }
+    }
+
+    @Override
     public List<Order> getOrderHistory(User user) {
         try (Session session = sessionFactory.openSession()) {
             Query<Order> query = session

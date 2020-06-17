@@ -49,6 +49,17 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     }
 
     @Override
+    public List<MovieSession> getAll() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<MovieSession> movieSessions =
+                    session.createQuery("FROM MovieSession ", MovieSession.class);
+            return movieSessions.getResultList();
+        } catch (Exception e) {
+            throw new DataProcessingException("Unable to get all movie sessions", e);
+        }
+    }
+
+    @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
         try (Session session = sessionFactory.openSession()) {
             Query query = session
@@ -61,11 +72,12 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     }
 
     @Override
-    public MovieSession findById(Long id) {
+    public MovieSession getById(Long id) {
         try (Session session = sessionFactory.openSession()) {
             return session.get(MovieSession.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Unable to find movie session with this id", e);
+            throw new DataProcessingException("Unable to find movie session with this ID: "
+                    + id, e);
         }
     }
 }

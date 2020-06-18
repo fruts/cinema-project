@@ -48,7 +48,7 @@ public class OrderController {
 
     @GetMapping
     public List<OrderResponseDto> getOrdersByUser(Authentication authentication) {
-        User user = userService.findByEmail(authentication.getName()).get();
+        User user = userService.findByEmail(authentication.getName());
         List<Order> orders = orderService.getOrderHistory(user);
         return orders.stream()
                 .map(orderMapper::convertToResponseDto)

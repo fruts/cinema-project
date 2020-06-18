@@ -30,6 +30,6 @@ public class MovieSessionServiceImpl implements MovieSessionService {
 
     @Override
     public MovieSession findById(Long id) {
-        return movieSessionDao.findById(id);
+        return movieSessionDao.getById(id);
     }
 }
